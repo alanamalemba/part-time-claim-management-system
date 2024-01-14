@@ -1,12 +1,35 @@
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
-export default function NavBar() {
+type Props = {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function NavBar({ setIsLoggedIn }: Props) {
+  function handleLogout() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    toast.success("Logged out successfully!");
+  }
   return (
-    <nav className="bg-blue-900 w-1/5 text-white min-h-screen">
+    <nav className="bg-blue-900 min-w-[200px] max-w-[250px] text-white min-h-screen">
       <div className=" p-2 text-lg font-semibold bg-blue-950 ">Actions</div>
+
       <div className="border-y  p-2">
-        <Link to={`/create-account`}>Create user account</Link>
+        <Link to={`/`}>Create user account</Link>
       </div>
+
+      <div className="border-y  p-2">
+        <Link to={`/submit-claim`}>Submit Claim</Link>
+      </div>
+
+      <button
+        className="border-y w-full bg-blue-950 p-2"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
     </nav>
   );
 }

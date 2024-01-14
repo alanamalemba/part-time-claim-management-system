@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
   }
 
   const accessToken = sign({ email: user.email, id: user.id }, "secretKey");
-  res.json(accessToken);
+  res.json({ user: user, accessToken: accessToken });
 });
 
 module.exports = router;

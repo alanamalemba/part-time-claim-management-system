@@ -29,8 +29,9 @@ export default function Login({ setIsLoggedIn }: Props) {
         toast.success(data.error);
       } else {
         console.log(data);
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("user", JSON.stringify(data.user));
         toast.success("Logged in successfully!");
-        localStorage.setItem("accessToken", data);
         setIsLoggedIn(true);
       }
     } catch (error) {

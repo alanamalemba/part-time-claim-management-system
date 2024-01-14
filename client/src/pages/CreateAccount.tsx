@@ -137,9 +137,10 @@ export default function CreateAccount() {
             <option disabled defaultValue="" value="">
               select a job
             </option>
-            <option value="1">Cleaner</option>
-            <option value="2">Driver</option>
-            <option value="3">Painter</option>
+            <option value={1}>Cleaner</option>
+            <option value={2}>Driver</option>
+            <option value={3}>Painter</option>
+            <option value={0}>Not a part time worker</option>
           </select>
         </label>
 
