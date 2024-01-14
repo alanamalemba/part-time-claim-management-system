@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     password: hash,
   });
 
-  res.json("Successfully created account : " + req.body.name);
+  res.json("Successfully created account for: " + req.body.name);
 });
 
 module.exports = router;
