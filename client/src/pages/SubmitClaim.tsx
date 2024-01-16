@@ -1,13 +1,38 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import toast from "react-hot-toast";
+import { serverUrl } from "../utilities/Constants";
+import { JobType } from "../utilities/Types";
 
 export default function SubmitClaim() {
   const [hours, setHours] = useState("");
   const [date, setDate] = useState("");
   const { user } = useContext(UserContext);
 
+  console.log(user?.job_id);
+
+  const [userJob, setUserJob] = useState<string>();
+
   const currentDate = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const response = await fetch(`${serverUrl}/jobs`);
+        const data = (await response.json()) as JobType[];
+
+        setUserJob(data.find((job) => job.id == user?.job_id)?.name);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
+      }
+    }
+
+    fetchJobs();
+  }, [user?.job_id]);
+
+  console.log(userJob);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,11 +67,13 @@ export default function SubmitClaim() {
         <p className="flex justify-between border-b">
           Name: <span className="text-base">{user?.name}</span>
         </p>
+
         <p className="flex justify-between border-b">
           Email: <span className="text-base">{user?.email}</span>
         </p>
+
         <p className="flex justify-between border-b">
-          P.T Job: <span className="text-base">{user?.job_id}</span>
+          P.T Job: <span className="text-base">{userJob}</span>
         </p>
       </div>
 

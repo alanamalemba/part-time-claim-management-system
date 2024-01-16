@@ -8,6 +8,9 @@ import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import SubmitClaim from "./pages/SubmitClaim";
 import { UserType } from "./utilities/Types";
+import SubmittedClaims from "./pages/submittedClaims/SubmittedClaims";
+import AddDepartment from "./pages/AddDepartment";
+import AddJob from "./pages/AddJob";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -48,6 +51,9 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<CreateAccount />} />
                 <Route path="/submit-claim" element={<SubmitClaim />} />
+                <Route path="/submitted-claims" element={<SubmittedClaims />} />
+                <Route path="/add-department" element={<AddDepartment />} />
+                <Route path="/add-job" element={<AddJob />} />
               </Routes>
             </section>
           </>

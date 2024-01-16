@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { serverUrl } from "../utilities/Constants";
+import { JobType } from "../utilities/Types";
 
 export default function CreateAccount() {
   const [name, setName] = useState("");
@@ -9,6 +11,25 @@ export default function CreateAccount() {
   const [accountNo, setAccountNo] = useState("");
   const [nationalId, setNationalId] = useState("");
   const [job, setJob] = useState("");
+
+  const [jobs, setJobs] = useState<JobType[]>([]);
+
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const response = await fetch(`${serverUrl}/jobs`);
+        const data = await response.json();
+        console.log(data);
+        setJobs(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
+      }
+    }
+
+    fetchJobs();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -137,9 +158,11 @@ export default function CreateAccount() {
             <option disabled defaultValue="" value="">
               select a job
             </option>
-            <option value={1}>Cleaner</option>
-            <option value={2}>Driver</option>
-            <option value={3}>Painter</option>
+            {jobs.map((job) => (
+              <option value={job.id} key={job.id}>
+                {job.name}
+              </option>
+            ))}
             <option value={0}>Not a part time worker</option>
           </select>
         </label>
