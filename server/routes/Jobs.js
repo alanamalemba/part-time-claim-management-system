@@ -24,4 +24,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    const job = await jobs.findByPk(jobId);
+    res.json(job.name);
+  } catch (error) {
+    console.log(error.message);
+    res.json("Internal Server Error");
+  }
+});
+
 module.exports = router;

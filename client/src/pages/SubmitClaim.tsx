@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import toast from "react-hot-toast";
 import { serverUrl } from "../utilities/Constants";
-import { JobType } from "../utilities/Types";
 
 export default function SubmitClaim() {
   const [hours, setHours] = useState("");
@@ -16,12 +15,13 @@ export default function SubmitClaim() {
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
-    async function fetchJobs() {
+    async function fetchJob() {
       try {
-        const response = await fetch(`${serverUrl}/jobs`);
-        const data = (await response.json()) as JobType[];
+        const response = await fetch(`${serverUrl}/jobs/${user?.job_id}`);
+        const data = await response.json();
+        console.log(data);
 
-        setUserJob(data.find((job) => job.id == user?.job_id)?.name);
+        setUserJob(data);
       } catch (error) {
         if (error instanceof Error) {
           console.log(error.message);
@@ -29,7 +29,7 @@ export default function SubmitClaim() {
       }
     }
 
-    fetchJobs();
+    fetchJob();
   }, [user?.job_id]);
 
   async function uploadFile() {
