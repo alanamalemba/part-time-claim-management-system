@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    file_url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 
   return Claims;

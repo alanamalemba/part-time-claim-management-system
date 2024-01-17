@@ -7,9 +7,9 @@ import { JobType } from "../utilities/Types";
 export default function SubmitClaim() {
   const [hours, setHours] = useState("");
   const [date, setDate] = useState("");
-  const { user } = useContext(UserContext);
+  const [file, setFile] = useState<File>();
 
-  console.log(user?.job_id);
+  const { user } = useContext(UserContext);
 
   const [userJob, setUserJob] = useState<string>();
 
@@ -32,11 +32,29 @@ export default function SubmitClaim() {
     fetchJobs();
   }, [user?.job_id]);
 
-  console.log(userJob);
+  async function uploadFile() {
+    try {
+      const formData = new FormData();
+      formData.append("file", file as File);
+      const res = await fetch(`${serverUrl}/submit-claim/upload`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+      }
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     try {
+      const fileUrl = await uploadFile();
+
       const response = await fetch(`http://localhost:8000/submit-claim`, {
         method: "POST",
         headers: {
@@ -48,11 +66,11 @@ export default function SubmitClaim() {
           status: "pending",
           user_id: user?.id,
           job_id: user?.job_id,
+          file_url: fileUrl,
         }),
       });
 
       const data = await response.json();
-      console.log(data);
       toast.success(data);
     } catch (error) {
       if (error instanceof Error) {
@@ -107,6 +125,16 @@ export default function SubmitClaim() {
             required
             value={date}
             onChange={(e) => setDate(e.target.value)}
+          />
+        </label>
+
+        <label className="">
+          <p>Select supporting document</p>
+          <input
+            className="border rounded w-full p-1 shadow"
+            type="file"
+            required
+            onChange={(e) => setFile(e.target.files?.[0])}
           />
         </label>
 

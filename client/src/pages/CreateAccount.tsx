@@ -19,7 +19,6 @@ export default function CreateAccount() {
       try {
         const response = await fetch(`${serverUrl}/jobs`);
         const data = await response.json();
-        console.log(data);
         setJobs(data);
       } catch (error) {
         if (error instanceof Error) {

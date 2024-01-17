@@ -15,6 +15,7 @@ export type ClaimType = {
     status:string
     user_id:string
     job_id:string
+    file_url:string
 }
 
 export type ClaimantType = {
