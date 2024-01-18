@@ -24,4 +24,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const departmentId = req.params.id;
+    const department = await departments.findOne({
+      where: { id: departmentId },
+    });
+    res.json(department);
+  } catch (error) {
+    console.log(error.message);
+    res.json("Internal Server Error");
+  }
+});
+
 module.exports = router;

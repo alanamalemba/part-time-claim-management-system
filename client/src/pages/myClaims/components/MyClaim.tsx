@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ClaimType, ClaimantType } from "../../../utilities/Types";
+import { ClaimType, ClaimantType, JobType } from "../../../utilities/Types";
 import { serverUrl } from "../../../utilities/Constants";
 import { UserContext } from "../../../App";
 
@@ -10,7 +10,7 @@ type Props = {
 export default function MyClaim({ claim }: Props) {
   const date = new Date(claim.date).toDateString();
   const [claimant, setClaimant] = useState<ClaimantType>();
-  const [userJob, setUserJob] = useState();
+  const [userJob, setUserJob] = useState<JobType>();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function MyClaim({ claim }: Props) {
         </div>
 
         <div>
-          Job: <span className="font-medium text-sm">{userJob}</span>{" "}
+          Job: <span className="font-medium text-sm">{userJob?.name}</span>{" "}
         </div>
 
         <div>

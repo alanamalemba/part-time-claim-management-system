@@ -37,3 +37,4 @@ export type JobType = {
     pay_rate:string
     department_id:string
 }
+

@@ -13,6 +13,7 @@ import AddDepartment from "./pages/AddDepartment";
 import AddJob from "./pages/AddJob";
 import ReviewedClaims from "./pages/reviewedClaims/ReviewedClaims";
 import MyClaims from "./pages/myClaims/MyClaims";
+import MyAccount from "./pages/MyAccount";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -51,7 +52,8 @@ export default function App() {
             <section className="flex ">
               <NavBar setIsLoggedIn={setIsLoggedIn} />
               <Routes>
-                <Route path="/" element={<CreateAccount />} />
+                <Route path="/" element={<MyAccount />} />
+                <Route path="/create-account" element={<CreateAccount />} />
                 <Route path="/add-department" element={<AddDepartment />} />
                 <Route path="/add-job" element={<AddJob />} />
                 <Route path="/submit-claim" element={<SubmitClaim />} />

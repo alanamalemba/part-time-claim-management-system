@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import toast from "react-hot-toast";
 import { serverUrl } from "../utilities/Constants";
+import { JobType } from "../utilities/Types";
 
 export default function SubmitClaim() {
   const [hours, setHours] = useState("");
@@ -10,7 +11,7 @@ export default function SubmitClaim() {
 
   const { user } = useContext(UserContext);
 
-  const [userJob, setUserJob] = useState<string>();
+  const [userJob, setUserJob] = useState<JobType>();
 
   const currentDate = new Date().toISOString().split("T")[0];
 
@@ -90,7 +91,7 @@ export default function SubmitClaim() {
         </p>
 
         <p className="flex justify-between border-b">
-          P.T Job: <span className="text-base">{userJob}</span>
+          P.T Job: <span className="text-base">{userJob?.name}</span>
         </p>
       </div>
 

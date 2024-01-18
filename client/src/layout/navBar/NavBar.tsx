@@ -13,10 +13,15 @@ export default function NavBar({ setIsLoggedIn }: Props) {
     toast.success("Logged out successfully!");
   }
   return (
-    <nav className="bg-blue-900 min-w-[200px] max-w-[250px] text-white min-h-screen">
+    <nav className=" bg-blue-900 min-w-[200px] md:min-w-[250px] md:max-w-[300px] max-w-[250px] text-white min-h-screen flex flex-col">
       <div className=" p-2 text-lg font-semibold bg-blue-950 ">Actions</div>
+
       <div className="border-y  p-2">
-        <Link to={`/`}>Create user account</Link>
+        <Link to={`/`}>My account</Link>
+      </div>
+
+      <div className="border-y  p-2">
+        <Link to={`/create-account`}>Create user account</Link>
       </div>
 
       <div className="border-y  p-2">
@@ -44,7 +49,7 @@ export default function NavBar({ setIsLoggedIn }: Props) {
       </div>
 
       <button
-        className="border-y w-full bg-blue-950 p-2"
+        className="border-y w-full bg-blue-950 p-2 mt-auto -translate-y-full"
         onClick={handleLogout}
       >
         Logout
