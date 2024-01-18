@@ -9,6 +9,7 @@ const claimsRouter = require("./routes/Claims");
 const usersRouter = require("./routes/Users");
 const departmentsRouter = require("./routes/Departments");
 const jobsRouter = require("./routes/Jobs");
+const uploadsRoute = require("./routes/Uploads");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/create-account", createAccountRouter);
 app.use("/login", loginRouter);
 app.use("/submit-claim", submitClaimRouter);
+app.use("/uploads", uploadsRoute);
 app.use("/claims", claimsRouter);
 app.use("/users", usersRouter);
 app.use("/departments", departmentsRouter);

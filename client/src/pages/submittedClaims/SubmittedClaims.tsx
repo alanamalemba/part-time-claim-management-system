@@ -22,7 +22,9 @@ export default function SubmittedClaims() {
   }, []);
 
   return (
-    <div className="p-6 flex flex-col gap-2 w-full max-w-[800px]">
+    <div className="p-6 flex flex-col items-center gap-2 w-full border ">
+      <h1 className="font-semibold text-blue-800 text-xl">Submitted Claims</h1>
+
       {claims.map((claim) => (
         <Claim key={claim.id} claim={claim} />
       ))}
