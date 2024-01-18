@@ -28,16 +28,16 @@ export default function ReviewedClaims() {
 
       <div className="border shadow rounded flex overflow-hidden w-[400px]">
         <button
-          className={`w-1/2 p-1  font-semibold text-white bg-green-500 ${
-            isAccepted && "opacity-50"
+          className={`w-1/2 p-1 shadow  font-semibold text-white bg-green-500 ${
+            isAccepted && "opacity-40"
           }`}
           onClick={() => setIsAccepted(true)}
         >
           Accepted
         </button>
         <button
-          className={`w-1/2 p-1 font-semibold text-white bg-red-500 ${
-            !isAccepted && "opacity-50"
+          className={`w-1/2 p-1 shadow font-semibold text-white bg-red-500 ${
+            !isAccepted && "opacity-40"
           }`}
           onClick={() => setIsAccepted(false)}
         >

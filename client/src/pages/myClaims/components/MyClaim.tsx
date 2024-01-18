@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ClaimType, ClaimantType } from "../../../utilities/Types";
 import { serverUrl } from "../../../utilities/Constants";
+import { UserContext } from "../../../App";
 
 type Props = {
   claim: ClaimType;
 };
 
-export default function ReviewedClaim({ claim }: Props) {
+export default function MyClaim({ claim }: Props) {
   const date = new Date(claim.date).toDateString();
   const [claimant, setClaimant] = useState<ClaimantType>();
   const [userJob, setUserJob] = useState();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -25,13 +27,9 @@ export default function ReviewedClaim({ claim }: Props) {
       }
     }
 
-    fetchData();
-  }, [claim.user_id, claim.file_url]);
-
-  useEffect(() => {
     async function fetchJob() {
       try {
-        const response = await fetch(`${serverUrl}/jobs/${claimant?.job_id}`);
+        const response = await fetch(`${serverUrl}/jobs/${user?.job_id}`);
         const data = await response.json();
 
         setUserJob(data);
@@ -42,8 +40,10 @@ export default function ReviewedClaim({ claim }: Props) {
       }
     }
 
+    fetchData();
+
     fetchJob();
-  }, [claimant?.job_id]);
+  }, [claim.user_id, claim.file_url, user?.job_id]);
 
   return (
     <div className="p-2 border shadow rounded flex flex-col gap-2">
@@ -57,7 +57,7 @@ export default function ReviewedClaim({ claim }: Props) {
         </div>
 
         <div>
-          Job: <span className="font-medium text-sm">{userJob}</span>
+          Job: <span className="font-medium text-sm">{userJob}</span>{" "}
         </div>
 
         <div>
@@ -69,7 +69,18 @@ export default function ReviewedClaim({ claim }: Props) {
         </div>
 
         <div>
-          Status: <span className="font-medium text-sm">{claim.status}</span>
+          Status:{" "}
+          <span
+            className={`font-medium text-sm ${
+              claim.status === "accepted"
+                ? "text-green-600"
+                : claim.status === "rejected"
+                ? "text-red-600"
+                : " text-blue-600"
+            }`}
+          >
+            {claim.status}
+          </span>
         </div>
       </div>
 

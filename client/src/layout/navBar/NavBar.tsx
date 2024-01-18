@@ -38,6 +38,11 @@ export default function NavBar({ setIsLoggedIn }: Props) {
       <div className="border-y  p-2">
         <Link to={`/submit-claim`}>Submit Claim</Link>
       </div>
+
+      <div className="border-y  p-2">
+        <Link to={`/my-claims`}>My Claims</Link>
+      </div>
+
       <button
         className="border-y w-full bg-blue-950 p-2"
         onClick={handleLogout}

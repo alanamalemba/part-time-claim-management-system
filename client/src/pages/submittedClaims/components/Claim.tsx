@@ -10,6 +10,7 @@ type Props = {
 export default function Claim({ claim }: Props) {
   const date = new Date(claim.date).toDateString();
   const [claimant, setClaimant] = useState<ClaimantType>();
+  const [userJob, setUserJob] = useState();
 
   const [isUpdated, setIsUpdated] = useState(false);
 
@@ -29,6 +30,23 @@ export default function Claim({ claim }: Props) {
 
     fetchData();
   }, [claim.user_id, claim.file_url]);
+
+  useEffect(() => {
+    async function fetchJob() {
+      try {
+        const response = await fetch(`${serverUrl}/jobs/${claimant?.job_id}`);
+        const data = await response.json();
+
+        setUserJob(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
+      }
+    }
+
+    fetchJob();
+  }, [claimant?.job_id]);
 
   async function handleStatusUpdate(status: boolean) {
     let newStatus;
@@ -74,7 +92,9 @@ export default function Claim({ claim }: Props) {
           Email: <span className="font-medium text-sm">{claimant?.email}</span>
         </div>
 
-        <div>Job: </div>
+        <div>
+          Job: <span className="font-medium text-sm">{userJob}</span>
+        </div>
 
         <div>
           Hours: <span className="font-medium text-sm">{claim.hours}</span>

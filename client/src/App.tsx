@@ -12,6 +12,7 @@ import SubmittedClaims from "./pages/submittedClaims/SubmittedClaims";
 import AddDepartment from "./pages/AddDepartment";
 import AddJob from "./pages/AddJob";
 import ReviewedClaims from "./pages/reviewedClaims/ReviewedClaims";
+import MyClaims from "./pages/myClaims/MyClaims";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -51,11 +52,12 @@ export default function App() {
               <NavBar setIsLoggedIn={setIsLoggedIn} />
               <Routes>
                 <Route path="/" element={<CreateAccount />} />
+                <Route path="/add-department" element={<AddDepartment />} />
+                <Route path="/add-job" element={<AddJob />} />
                 <Route path="/submit-claim" element={<SubmitClaim />} />
                 <Route path="/submitted-claims" element={<SubmittedClaims />} />
                 <Route path="/reviewed-claims" element={<ReviewedClaims />} />
-                <Route path="/add-department" element={<AddDepartment />} />
-                <Route path="/add-job" element={<AddJob />} />
+                <Route path="/my-claims" element={<MyClaims />} />
               </Routes>
             </section>
           </>

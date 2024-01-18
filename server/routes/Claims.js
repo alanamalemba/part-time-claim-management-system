@@ -25,6 +25,12 @@ router.get("/reviewed", async (req, res) => {
   res.json(listOfClaims);
 });
 
+router.get("/:id", async (req, res) => {
+  const userId = req.params.id;
+  const listOfClaims = await claims.findAll({ where: { user_id: userId } });
+  res.json(listOfClaims);
+});
+
 router.patch("/:id", async (req, res) => {
   try {
     await claims.update(

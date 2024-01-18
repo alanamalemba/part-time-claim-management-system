@@ -21,7 +21,7 @@ export type ClaimType = {
 export type ClaimantType = {
     name:string
     email:string
-    job:string
+    job_id:string
 
 }
 

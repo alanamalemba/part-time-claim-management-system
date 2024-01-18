@@ -19,7 +19,6 @@ export default function SubmitClaim() {
       try {
         const response = await fetch(`${serverUrl}/jobs/${user?.job_id}`);
         const data = await response.json();
-        console.log(data);
 
         setUserJob(data);
       } catch (error) {
