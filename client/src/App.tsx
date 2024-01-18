@@ -11,6 +11,7 @@ import { UserType } from "./utilities/Types";
 import SubmittedClaims from "./pages/submittedClaims/SubmittedClaims";
 import AddDepartment from "./pages/AddDepartment";
 import AddJob from "./pages/AddJob";
+import ReviewedClaims from "./pages/reviewedClaims/ReviewedClaims";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -52,6 +53,7 @@ export default function App() {
                 <Route path="/" element={<CreateAccount />} />
                 <Route path="/submit-claim" element={<SubmitClaim />} />
                 <Route path="/submitted-claims" element={<SubmittedClaims />} />
+                <Route path="/reviewed-claims" element={<ReviewedClaims />} />
                 <Route path="/add-department" element={<AddDepartment />} />
                 <Route path="/add-job" element={<AddJob />} />
               </Routes>

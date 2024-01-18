@@ -8,7 +8,7 @@ export default function SubmittedClaims() {
   useEffect(() => {
     async function fetchClaims() {
       try {
-        const response = await fetch("http://localhost:8000/claims");
+        const response = await fetch("http://localhost:8000/claims/pending");
         const data = await response.json();
         setClaims(data);
       } catch (error) {

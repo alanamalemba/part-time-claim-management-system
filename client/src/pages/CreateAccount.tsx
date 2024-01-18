@@ -62,7 +62,7 @@ export default function CreateAccount() {
   return (
     <div className="flex justify-center pt-6 w-full">
       <form
-        className=" flex flex-col gap-2 min-w-[400px]"
+        className=" flex flex-col gap-2 min-w-[400px] max-w-[500px] w-full p-2"
         onSubmit={(e) => handleSubmit(e)}
       >
         <h1 className="text-xl text-blue-900 font-semibold text-center">

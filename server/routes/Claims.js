@@ -1,11 +1,27 @@
 const express = require("express");
 const { claims } = require("../models");
-const { where } = require("sequelize");
+const Sequelize = require("sequelize");
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   const listOfClaims = await claims.findAll();
+  res.json(listOfClaims);
+});
+
+router.get("/pending", async (req, res) => {
+  const listOfClaims = await claims.findAll({ where: { status: "pending" } });
+  res.json(listOfClaims);
+});
+
+router.get("/reviewed", async (req, res) => {
+  const listOfClaims = await claims.findAll({
+    where: {
+      status: {
+        [Sequelize.Op.not]: "pending",
+      },
+    },
+  });
   res.json(listOfClaims);
 });
 

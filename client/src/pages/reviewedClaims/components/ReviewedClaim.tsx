@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import { ClaimType, ClaimantType } from "../../../utilities/Types";
 import { serverUrl } from "../../../utilities/Constants";
-import toast from "react-hot-toast";
 
 type Props = {
   claim: ClaimType;
 };
 
-export default function Claim({ claim }: Props) {
+export default function ReviewedClaim({ claim }: Props) {
   const date = new Date(claim.date).toDateString();
   const [claimant, setClaimant] = useState<ClaimantType>();
-
-  const [isUpdated, setIsUpdated] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -29,39 +26,6 @@ export default function Claim({ claim }: Props) {
 
     fetchData();
   }, [claim.user_id, claim.file_url]);
-
-  async function handleStatusUpdate(status: boolean) {
-    let newStatus;
-    try {
-      if (status) {
-        newStatus = "accepted";
-      } else {
-        newStatus = "rejected";
-      }
-
-      const res = await fetch(`${serverUrl}/claims/${claim.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: newStatus,
-        }),
-      });
-
-      const data = await res.json();
-      toast.success(data);
-      setIsUpdated(true);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
-  }
-
-  if (isUpdated) {
-    return;
-  }
 
   return (
     <div className="p-2 border shadow rounded flex flex-col gap-2">
@@ -97,21 +61,6 @@ export default function Claim({ claim }: Props) {
         >
           Download support document
         </a>
-      </div>
-
-      <div className="border p-1 rounded shadow flex gap-2 text-white font-medium">
-        <button
-          className="p-1 border  grow rounded bg-red-500 "
-          onClick={() => handleStatusUpdate(false)}
-        >
-          Reject
-        </button>
-        <button
-          className="p-1 border  grow rounded bg-green-500 "
-          onClick={() => handleStatusUpdate(true)}
-        >
-          Accept
-        </button>
       </div>
     </div>
   );
