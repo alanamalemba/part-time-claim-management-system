@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { serverUrl } from "../utilities/Constants";
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +13,7 @@ export default function Login({ setIsLoggedIn }: Props) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/login`, {
+      const response = await fetch(`${serverUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +27,7 @@ export default function Login({ setIsLoggedIn }: Props) {
       const data = await response.json();
       if (data.error) {
         console.log(data.error);
-        toast.success(data.error);
+        toast.error(data.error);
       } else {
         console.log(data);
         localStorage.setItem("accessToken", data.accessToken);

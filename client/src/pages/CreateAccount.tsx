@@ -33,7 +33,7 @@ export default function CreateAccount() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/create-account`, {
+      const response = await fetch(`${serverUrl}/create-account`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

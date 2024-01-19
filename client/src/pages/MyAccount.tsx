@@ -67,14 +67,18 @@ export default function MyAccount() {
           Role: <span className="font-semibold">{user?.role}</span>
         </div>
 
-        <div>
-          Department:{" "}
-          <span className="font-semibold">{userDepartment?.name}</span>
-        </div>
+        {user?.role !== "admin" && (
+          <>
+            <div>
+              Department:{" "}
+              <span className="font-semibold">{userDepartment?.name}</span>
+            </div>
 
-        <div>
-          Job: <span className="font-semibold">{userJob?.name}</span>
-        </div>
+            <div>
+              Job: <span className="font-semibold">{userJob?.name}</span>
+            </div>
+          </>
+        )}
 
         <div>
           Account Number:{" "}

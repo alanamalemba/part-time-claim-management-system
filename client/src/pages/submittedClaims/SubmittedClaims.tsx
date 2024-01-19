@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ClaimType } from "../../utilities/Types";
 import Claim from "./components/Claim";
+import { serverUrl } from "../../utilities/Constants";
 
 export default function SubmittedClaims() {
   const [claims, setClaims] = useState<ClaimType[]>([]);
@@ -8,7 +9,7 @@ export default function SubmittedClaims() {
   useEffect(() => {
     async function fetchClaims() {
       try {
-        const response = await fetch("http://localhost:8000/claims/pending");
+        const response = await fetch(`${serverUrl}/claims/pending`);
         const data = await response.json();
         setClaims(data);
       } catch (error) {
@@ -22,7 +23,7 @@ export default function SubmittedClaims() {
   }, []);
 
   return (
-    <div className="p-6 flex flex-col items-center gap-2 w-full border ">
+    <div className="p-6 flex flex-col items-center gap-2 w-full border  h-screen overflow-y-scroll ">
       <h1 className="font-semibold text-blue-800 text-xl">Submitted Claims</h1>
 
       {claims.map((claim) => (

@@ -54,8 +54,9 @@ export default function SubmitClaim() {
 
     try {
       const fileUrl = await uploadFile();
+      console.log("submitting...");
 
-      const response = await fetch(`http://localhost:8000/submit-claim`, {
+      const response = await fetch(`${serverUrl}/submit-claim`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,8 +70,11 @@ export default function SubmitClaim() {
           file_url: fileUrl,
         }),
       });
+      console.log("submitted");
 
       const data = await response.json();
+      console.log(data);
+
       toast.success(data);
     } catch (error) {
       if (error instanceof Error) {
