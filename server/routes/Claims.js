@@ -1,6 +1,8 @@
 const express = require("express");
-const { claims } = require("../models");
+const { claims, users } = require("../models");
 const Sequelize = require("sequelize");
+const { websiteUrl } = require("../utilities/Constants");
+const sendEmail = require("../utilities/sendEmail");
 
 const router = express.Router();
 
@@ -37,6 +39,20 @@ router.patch("/:id", async (req, res) => {
       { status: req.body.status },
       { where: { id: req.params.id } }
     );
+
+    const claim = await claims.findByPk(req.params.id);
+    const user = await users.findByPk(claim.user_id);
+
+    const claimDate = new Date(claim.date);
+    const formattedDate = claimDate.toLocaleDateString();
+
+    const subject = "CLAIM REVIEWED!";
+    const message = `<p>Your claim of ${claim.hours} hours worked, on ${formattedDate} has been ${claim.status}<p/>
+                     <p> Click <a href=${websiteUrl}>here</a> to log in and view your claim status</p>
+                      `;
+
+    sendEmail(user.name, user.email, subject, message);
+
     res.json("Status updated successfully");
   } catch (error) {
     console.log(error.message);

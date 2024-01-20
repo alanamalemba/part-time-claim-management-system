@@ -17,6 +17,7 @@ export default function SubmitClaim() {
 
   useEffect(() => {
     async function fetchJob() {
+      if (user?.role !== "claimant") return;
       try {
         const response = await fetch(`${serverUrl}/jobs/${user?.job_id}`);
         const data = await response.json();

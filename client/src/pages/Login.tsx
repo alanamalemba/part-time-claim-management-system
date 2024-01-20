@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { serverUrl } from "../utilities/Constants";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +10,7 @@ type Props = {
 export default function Login({ setIsLoggedIn }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -33,6 +35,7 @@ export default function Login({ setIsLoggedIn }: Props) {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("user", JSON.stringify(data.user));
         toast.success("Logged in successfully!");
+        navigate(`/`);
         setIsLoggedIn(true);
       }
     } catch (error) {

@@ -14,6 +14,7 @@ import AddJob from "./pages/AddJob";
 import ReviewedClaims from "./pages/reviewedClaims/ReviewedClaims";
 import MyClaims from "./pages/myClaims/MyClaims";
 import MyAccount from "./pages/MyAccount";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -53,6 +54,7 @@ export default function App() {
               <NavBar setIsLoggedIn={setIsLoggedIn} />
               <Routes>
                 <Route path="/" element={<MyAccount />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/create-account" element={<CreateAccount />} />
                 <Route path="/add-department" element={<AddDepartment />} />
                 <Route path="/add-job" element={<AddJob />} />
