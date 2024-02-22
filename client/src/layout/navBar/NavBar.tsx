@@ -22,31 +22,22 @@ export default function NavBar({ setIsLoggedIn }: Props) {
       <h2 className=" p-2 text-lg font-semibold bg-blue-950 capitalize">
         {user?.role} Actions
       </h2>
-
       <div className="border-y  p-2">
         <Link to={`/`}>My account</Link>
       </div>
 
-      {user?.role === "admin" && (
+      {/* Admin view */}
+      {user?.role === "Admin" && (
         <>
-          <div className="border-y  p-2">
-            <Link to={`/dashboard`}>Dashboard</Link>
-          </div>
-
-          <div className="border-y  p-2">
-            <Link to={`/add-department`}>Add Department</Link>
-          </div>
-
-          <div className="border-y  p-2">
-            <Link to={`/add-job`}>Add Job</Link>
-          </div>
-
           <div className="border-y  p-2">
             <Link to={`/create-account`}>Create user account</Link>
           </div>
+
+          <div className="border-y  p-2">
+            <Link to={`/create-unit`}>Create unit</Link>
+          </div>
         </>
       )}
-
       {user?.role === "manager" && (
         <>
           <div className="border-y  p-2">
@@ -58,7 +49,6 @@ export default function NavBar({ setIsLoggedIn }: Props) {
           </div>
         </>
       )}
-
       {user?.role === "claimant" && (
         <>
           <div className="border-y  p-2">
@@ -70,7 +60,6 @@ export default function NavBar({ setIsLoggedIn }: Props) {
           </div>
         </>
       )}
-
       <button
         className="border-y w-full bg-blue-950 p-2 mt-auto sticky bottom-0 "
         onClick={handleLogout}

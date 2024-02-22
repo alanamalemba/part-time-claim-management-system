@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { serverUrl } from "../utilities/Constants";
-import { JobType } from "../utilities/Types";
+import { serverUrl } from "../../utilities/Constants";
 
 export default function CreateAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-  const [password, setPassword] = useState("");
-  const [accountNo, setAccountNo] = useState("");
-  const [nationalId, setNationalId] = useState("");
-  const [job, setJob] = useState("");
+  const [department, setDepartment] = useState("");
 
-  const [jobs, setJobs] = useState<JobType[]>([]);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
     async function fetchJobs() {
       try {
-        const response = await fetch(`${serverUrl}/jobs`);
-        const data = await response.json();
-        setJobs(data);
+        console.log("hello");
       } catch (error) {
         if (error instanceof Error) {
           console.log(error.message);
@@ -33,6 +28,11 @@ export default function CreateAccount() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
+      if (confirmPassword !== password) {
+        toast.error("Passwords do not match!!");
+        return;
+      }
+
       const response = await fetch(`${serverUrl}/create-account`, {
         method: "POST",
         headers: {
@@ -43,9 +43,7 @@ export default function CreateAccount() {
           email,
           role,
           password,
-          account_number: accountNo,
-          national_id: nationalId,
-          job_id: job,
+          department,
         }),
       });
 
@@ -70,10 +68,10 @@ export default function CreateAccount() {
         </h1>
 
         <label className="">
-          <p>Enter name</p>
+          <p>Enter full name</p>
           <input
             className="border shadow p-1 rounded w-full"
-            placeholder="name"
+            placeholder="e.g. John Doe"
             type="text"
             required
             value={name}
@@ -85,7 +83,7 @@ export default function CreateAccount() {
           <p>Enter email</p>
           <input
             className="border shadow p-1 rounded w-full"
-            placeholder="email"
+            placeholder="e.g. johndoe@mail.com"
             type="email"
             required
             value={email}
@@ -104,11 +102,39 @@ export default function CreateAccount() {
             <option disabled defaultValue="" value="">
               select a role
             </option>
-            <option value="claimant">Claimant</option>
-            <option value="manager">Manager</option>
-            <option value="admin">Admin</option>
+
+            <option value="Admin">Admin</option>
+            <option value="Lecturer">Lecturer</option>
+            <option value="Technician">Technician</option>
+            <option value="Chairperson">Chairperson</option>
+            <option value="Registrar">Registrar</option>
+            <option value="Finance">Finance</option>
           </select>
         </label>
+
+        {(role === "Chairperson" ||
+          role === "Lecturer" ||
+          role === "Technician") && (
+          <label className="">
+            <p>Enter Department</p>
+            <select
+              className=" border shadow w-full p-1"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              required
+            >
+              <option disabled defaultValue="" value="">
+                select a department
+              </option>
+
+              <option value="Computer Science">Computer Science</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Education">Education</option>
+              <option value="Agriculture">Agriculture</option>
+              <option value="Journalism">Journalism</option>
+            </select>
+          </label>
+        )}
 
         <label className="">
           <p>Enter password</p>
@@ -123,50 +149,18 @@ export default function CreateAccount() {
         </label>
 
         <label className="">
-          <p>Enter account number</p>
+          <p>Confirm password</p>
           <input
             className="border shadow p-1 rounded w-full"
-            placeholder="account number"
-            type="number"
+            placeholder="password"
+            type="password"
             required
-            value={accountNo}
-            onChange={(e) => setAccountNo(e.target.value)}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </label>
 
-        <label className="">
-          <p>Enter National ID</p>
-          <input
-            className="border shadow p-1 rounded w-full"
-            placeholder="national ID"
-            type="number"
-            required
-            value={nationalId}
-            onChange={(e) => setNationalId(e.target.value)}
-          />
-        </label>
-
-        <label className="">
-          <p>Enter Job</p>
-          <select
-            className=" border shadow w-full p-1"
-            value={job}
-            onChange={(e) => setJob(e.target.value)}
-            required
-          >
-            <option disabled defaultValue="" value="">
-              select a job
-            </option>
-            {jobs.map((job) => (
-              <option value={job.id} key={job.id}>
-                {job.name}
-              </option>
-            ))}
-            <option value={0}>Not a part time worker</option>
-          </select>
-        </label>
-
-        <button className="bg-blue-500 p-1 shadow-md rounded font-semibold">
+        <button className="bg-blue-500 p-1 text-white shadow-md rounded font-semibold">
           Submit
         </button>
       </form>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { serverUrl } from "../utilities/Constants";
+import { serverUrl } from "../../utilities/Constants";
 import { useNavigate } from "react-router-dom";
 
 type Props = {

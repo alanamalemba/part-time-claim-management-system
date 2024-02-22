@@ -1,20 +1,15 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "./layout/navBar/NavBar";
 import Header from "./layout/header/Header";
-import CreateAccount from "./pages/CreateAccount";
+import CreateAccount from "./pages/createAccount/CreateAccount";
 import { Toaster } from "react-hot-toast";
 import LoadingScreen from "./components/LoadingScreen";
 import { createContext, useEffect, useState } from "react";
-import Login from "./pages/Login";
-import SubmitClaim from "./pages/SubmitClaim";
+import Login from "./pages/login/Login";
+import SubmitClaim from "./pages/submitClaim/SubmitClaim";
 import { UserType } from "./utilities/Types";
-import SubmittedClaims from "./pages/submittedClaims/SubmittedClaims";
-import AddDepartment from "./pages/AddDepartment";
-import AddJob from "./pages/AddJob";
-import ReviewedClaims from "./pages/reviewedClaims/ReviewedClaims";
-import MyClaims from "./pages/myClaims/MyClaims";
-import MyAccount from "./pages/MyAccount";
-import Dashboard from "./pages/dashboard/Dashboard";
+import MyAccount from "./pages/myAccount/MyAccount";
+import CreateUnit from "./pages/createUnit/CreateUnit";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -54,14 +49,10 @@ export default function App() {
               <NavBar setIsLoggedIn={setIsLoggedIn} />
               <Routes>
                 <Route path="/" element={<MyAccount />} />
-                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/create-account" element={<CreateAccount />} />
-                <Route path="/add-department" element={<AddDepartment />} />
-                <Route path="/add-job" element={<AddJob />} />
+                <Route path="/create-unit" element={<CreateUnit />} />
                 <Route path="/submit-claim" element={<SubmitClaim />} />
-                <Route path="/submitted-claims" element={<SubmittedClaims />} />
-                <Route path="/reviewed-claims" element={<ReviewedClaims />} />
-                <Route path="/my-claims" element={<MyClaims />} />
+                <Route path="*" element={<Navigate to={`/`} />} />
               </Routes>
             </section>
           </>

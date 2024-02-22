@@ -10,6 +10,7 @@ const usersRouter = require("./routes/Users");
 const departmentsRouter = require("./routes/Departments");
 const jobsRouter = require("./routes/Jobs");
 const uploadsRoute = require("./routes/Uploads");
+const unitsRoute = require("./routes/units.route");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/claims", claimsRouter);
 app.use("/users", usersRouter);
 app.use("/departments", departmentsRouter);
 app.use("/jobs", jobsRouter);
+app.use("/units", unitsRoute);
 //...
 
 db.sequelize.sync().then(() => {

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../App";
-import { serverUrl } from "../utilities/Constants";
-import { DepartmentType, JobType } from "../utilities/Types";
+import { UserContext } from "../../App";
+import { serverUrl } from "../../utilities/Constants";
+import { DepartmentType, JobType } from "../../utilities/Types";
 
 export default function MyAccount() {
   const { user } = useContext(UserContext);
@@ -59,31 +59,17 @@ export default function MyAccount() {
         </div>
 
         <div>
-          National ID:{" "}
-          <span className="font-semibold">{user?.national_id}</span>
-        </div>
-
-        <div>
           Role: <span className="font-semibold">{user?.role}</span>
         </div>
 
-        {user?.role !== "admin" && (
+        {user?.role !== "Admin" && (
           <>
             <div>
               Department:{" "}
               <span className="font-semibold">{userDepartment?.name}</span>
             </div>
-
-            <div>
-              Job: <span className="font-semibold">{userJob?.name}</span>
-            </div>
           </>
         )}
-
-        <div>
-          Account Number:{" "}
-          <span className="font-semibold">{user?.account_number}</span>
-        </div>
       </div>
     </div>
   );

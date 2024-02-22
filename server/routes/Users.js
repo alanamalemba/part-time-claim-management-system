@@ -3,20 +3,6 @@ const { users } = require("../models");
 
 const router = express.Router();
 
-router.get("/managers", async (req, res) => {
-  try {
-    const listOfManagers = await users.findAll({
-      where: {
-        role: "manager",
-      },
-    });
-    res.json(listOfManagers);
-  } catch (error) {
-    console.log(error.message);
-    res.json(error.message);
-  }
-});
-
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;

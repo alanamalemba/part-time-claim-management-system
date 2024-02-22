@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../App";
+import { UserContext } from "../../App";
 import toast from "react-hot-toast";
-import { serverUrl } from "../utilities/Constants";
-import { JobType } from "../utilities/Types";
+import { serverUrl } from "../../utilities/Constants";
+import { JobType } from "../../utilities/Types";
 
 export default function SubmitClaim() {
   const [hours, setHours] = useState("");

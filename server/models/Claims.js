@@ -8,7 +8,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    status: {
+    department_status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    registrar_status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    finance_status: {
       type: DataTypes.STRING,
       allowNull: false,
     },
