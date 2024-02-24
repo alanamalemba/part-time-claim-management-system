@@ -27,30 +27,34 @@ export default function NavBar({ setIsLoggedIn }: Props) {
       </div>
 
       {/* Admin view */}
-      {user?.role === "Admin" && (
-        <>
+      {
+        /*user?.role === "Admin" && */ <>
           <div className="border-y  p-2">
-            <Link to={`/create-account`}>Create user account</Link>
+            <Link to={`/create-account`}>Create User Account</Link>
           </div>
 
           <div className="border-y  p-2">
-            <Link to={`/create-unit`}>Create unit</Link>
+            <Link to={`/create-unit`}>Create Unit</Link>
           </div>
         </>
-      )}
-      {user?.role === "manager" && (
-        <>
+      }
+      {
+        /*user?.role === "Chairperson" && */ <>
           <div className="border-y  p-2">
-            <Link to={`/submitted-claims`}>Submitted Claims</Link>
+            <Link to={`/assign-units`}>Assign Units</Link>
+          </div>
+
+          <div className="border-y  p-2">
+            <Link to={`/department-claims`}>Department Claims</Link>
           </div>
 
           <div className="border-y  p-2">
             <Link to={`/reviewed-claims`}>Reviewed Claims</Link>
           </div>
         </>
-      )}
-      {user?.role === "claimant" && (
-        <>
+      }
+      {
+        /*(user?.role === "Lecturer" || user?.role === "Technician") && */ <>
           <div className="border-y  p-2">
             <Link to={`/submit-claim`}>Submit Claim</Link>
           </div>
@@ -59,7 +63,7 @@ export default function NavBar({ setIsLoggedIn }: Props) {
             <Link to={`/my-claims`}>My Claims</Link>
           </div>
         </>
-      )}
+      }
       <button
         className="border-y w-full bg-blue-950 p-2 mt-auto sticky bottom-0 "
         onClick={handleLogout}

@@ -3,7 +3,8 @@ import { serverUrl } from "../../utilities/Constants";
 import toast from "react-hot-toast";
 
 export default function CreateUnit() {
-  const [name, setName] = useState("");
+  const [unitCode, setUnitCode] = useState("");
+  const [unitTitle, setUnitTitle] = useState("");
   const [CF, setCF] = useState("");
   const [department, setDepartment] = useState("");
 
@@ -16,12 +17,17 @@ export default function CreateUnit() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, CF, department }),
+        body: JSON.stringify({
+          unit_code: unitCode,
+          unit_title: unitTitle,
+          cf: CF,
+          department,
+        }),
       });
 
       const result = await response.json();
       console.log(result);
-      toast.success(result);
+      toast.success(result.success.message);
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
@@ -40,14 +46,26 @@ export default function CreateUnit() {
         </h1>
 
         <label>
-          <p>Enter unit Name</p>
+          <p>Enter unit Code</p>
           <input
             className="border shadow rounded p-2 w-full"
             required
             type="text"
-            placeholder="e.g. Computer Security"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. Comp 100"
+            value={unitCode}
+            onChange={(e) => setUnitCode(e.target.value)}
+          />
+        </label>
+
+        <label>
+          <p>Enter unit Title</p>
+          <input
+            className="border shadow rounded p-2 w-full"
+            required
+            type="text"
+            placeholder="e.g. Introduction to Information Technology"
+            value={unitTitle}
+            onChange={(e) => setUnitTitle(e.target.value)}
           />
         </label>
 

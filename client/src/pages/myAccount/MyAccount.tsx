@@ -1,49 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../App";
-import { serverUrl } from "../../utilities/Constants";
-import { DepartmentType, JobType } from "../../utilities/Types";
 
 export default function MyAccount() {
   const { user } = useContext(UserContext);
-  const [userJob, setUserJob] = useState<JobType>();
-  const [userDepartment, setUserDepartment] = useState<DepartmentType>();
-
-  useEffect(() => {
-    async function fetchJob() {
-      try {
-        const response = await fetch(`${serverUrl}/jobs/${user?.job_id}`);
-        const data = await response.json();
-
-        setUserJob(data);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error.message);
-        }
-      }
-    }
-
-    fetchJob();
-  }, [user?.job_id]);
-
-  useEffect(() => {
-    async function getDepartment() {
-      if (!userJob) return;
-      try {
-        const response = await fetch(
-          `${serverUrl}/departments/${userJob?.department_id}`
-        );
-
-        const data = await response.json();
-        setUserDepartment(data);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error.message);
-        }
-      }
-    }
-
-    getDepartment();
-  }, [userJob]);
 
   return (
     <div className="flex flex-col gap-2 items-center w-full p-6">
@@ -66,7 +25,7 @@ export default function MyAccount() {
           <>
             <div>
               Department:{" "}
-              <span className="font-semibold">{userDepartment?.name}</span>
+              <span className="font-semibold">{user?.department}</span>
             </div>
           </>
         )}

@@ -15,7 +15,7 @@ export default function Login({ setIsLoggedIn }: Props) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      const response = await fetch(`${serverUrl}/login`, {
+      const response = await fetch(`${serverUrl}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,18 +26,18 @@ export default function Login({ setIsLoggedIn }: Props) {
         }),
       });
 
-      const data = await response.json();
-      if (data.error) {
-        console.log(data.error);
-        toast.error(data.error);
-      } else {
-        console.log(data);
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        toast.success("Logged in successfully!");
-        navigate(`/`);
-        setIsLoggedIn(true);
+      const result = await response.json();
+
+      if (result.error) {
+        console.log(result.error.message);
+        toast.error(result.error.message);
+        return;
       }
+      console.log(result);
+      localStorage.setItem("user", JSON.stringify(result.success.data));
+      toast.success(result.success.message);
+      navigate(`/`);
+      setIsLoggedIn(true);
     } catch (error) {
       if (error instanceof Error) {
         console.log(error);

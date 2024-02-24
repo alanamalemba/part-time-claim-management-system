@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../utilities/Constants";
-import { JobType } from "../../utilities/Types";
 
 export default function SubmitClaim() {
   const [hours, setHours] = useState("");
@@ -11,27 +10,19 @@ export default function SubmitClaim() {
 
   const { user } = useContext(UserContext);
 
-  const [userJob, setUserJob] = useState<JobType>();
-
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
-    async function fetchJob() {
-      if (user?.role !== "claimant") return;
+    async function fetchUnits() {
       try {
-        const response = await fetch(`${serverUrl}/jobs/${user?.job_id}`);
-        const data = await response.json();
-
-        setUserJob(data);
+        const response = await fetch(`${serverUrl}/units/claimant/${user?.id}`);
       } catch (error) {
         if (error instanceof Error) {
-          console.log(error.message);
+          console.error(error.message);
         }
       }
     }
-
-    fetchJob();
-  }, [user?.job_id]);
+  }, []);
 
   async function uploadFile() {
     try {
@@ -66,8 +57,8 @@ export default function SubmitClaim() {
           hours,
           date,
           status: "pending",
+          department: user?.department,
           user_id: user?.id,
-          job_id: user?.job_id,
           file_url: fileUrl,
         }),
       });
@@ -86,22 +77,8 @@ export default function SubmitClaim() {
 
   return (
     <div className="flex w-full p-6 gap-2 justify-evenly">
-      <div className="text-lg font-semibold flex flex-col gap-4 grow max-w-[400px]">
-        <p className="flex justify-between border-b">
-          Name: <span className="text-base">{user?.name}</span>
-        </p>
-
-        <p className="flex justify-between border-b">
-          Email: <span className="text-base">{user?.email}</span>
-        </p>
-
-        <p className="flex justify-between border-b">
-          P.T Job: <span className="text-base">{userJob?.name}</span>
-        </p>
-      </div>
-
       <form
-        className="flex flex-col gap-2 border shadow h-fit grow p-2  max-w-[600px]"
+        className="flex flex-col gap-2 border shadow h-fit grow p-2  max-w-[800px]"
         onSubmit={(e) => handleSubmit(e)}
       >
         <h1 className="text-xl text-blue-900 font-semibold text-center">

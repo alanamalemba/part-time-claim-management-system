@@ -10,6 +10,8 @@ import SubmitClaim from "./pages/submitClaim/SubmitClaim";
 import { UserType } from "./utilities/Types";
 import MyAccount from "./pages/myAccount/MyAccount";
 import CreateUnit from "./pages/createUnit/CreateUnit";
+import AssignUnits from "./pages/assignUnits/AssignUnits";
+import DepartmentClaims from "./pages/departmentClaims/DepartmentClaims";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -27,7 +29,7 @@ export default function App() {
   const [user, setUser] = useState<UserType>();
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken") && localStorage.getItem("user")) {
+    if (localStorage.getItem("user")) {
       setUser(JSON.parse(localStorage.getItem("user") as string));
       setIsLoggedIn(true);
     } else {
@@ -52,6 +54,11 @@ export default function App() {
                 <Route path="/create-account" element={<CreateAccount />} />
                 <Route path="/create-unit" element={<CreateUnit />} />
                 <Route path="/submit-claim" element={<SubmitClaim />} />
+                <Route path="/assign-units" element={<AssignUnits />} />
+                <Route
+                  path="/department-claims"
+                  element={<DepartmentClaims />}
+                />
                 <Route path="*" element={<Navigate to={`/`} />} />
               </Routes>
             </section>

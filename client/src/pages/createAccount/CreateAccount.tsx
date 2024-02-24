@@ -33,7 +33,7 @@ export default function CreateAccount() {
         return;
       }
 
-      const response = await fetch(`${serverUrl}/create-account`, {
+      const response = await fetch(`${serverUrl}/auth/create-account`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,8 +48,13 @@ export default function CreateAccount() {
       });
 
       const data = await response.json();
-      console.log(data);
-      toast.success(data);
+
+      if (data.error) {
+        toast.error(data.error.message);
+        return;
+      }
+      console.log(data.success);
+      toast.success(data.success.message);
     } catch (error) {
       if (error instanceof Error) {
         console.log(error);

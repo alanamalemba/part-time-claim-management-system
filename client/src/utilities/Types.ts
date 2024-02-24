@@ -5,7 +5,7 @@ export type UserType = {
   role: string;
   account_number: string;
   national_id: string;
-  job_id: string;
+  department: string;
 };
 
 export type ClaimType = {
@@ -16,6 +16,8 @@ export type ClaimType = {
   user_id: string;
   job_id: string;
   file_url: string;
+  department: string;
+  unit_id: number;
 };
 
 export type ClaimantType = {
@@ -42,4 +44,6 @@ export type UnitType = {
   name: string;
   CF: string;
   department: string;
+  unit_code: string;
+  unit_title: string;
 };
