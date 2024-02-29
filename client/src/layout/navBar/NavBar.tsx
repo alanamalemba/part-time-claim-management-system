@@ -47,10 +47,6 @@ export default function NavBar({ setIsLoggedIn }: Props) {
           <div className="border-y  p-2">
             <Link to={`/department-claims`}>Department Claims</Link>
           </div>
-
-          <div className="border-y  p-2">
-            <Link to={`/reviewed-claims`}>Reviewed Claims</Link>
-          </div>
         </>
       }
       {

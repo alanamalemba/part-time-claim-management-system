@@ -1,5 +1,6 @@
 const express = require("express");
 const { units, assigned_units } = require("../models");
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -26,6 +27,42 @@ router.get("/not-assigned", async (req, res) => {
     res.json({
       success: { data: unitsList },
     });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal Server Error!" } });
+  }
+});
+
+//get unit with this id
+router.get("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const unit = await units.findByPk(id);
+    res.json({ success: { data: unit } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal Server Error!" } });
+  }
+});
+
+//get all units assigned to this user/lecturer id
+router.get("/lecturer/:lid", async (req, res) => {
+  try {
+    const lid = req.params.lid;
+    const assignedUnits = await assigned_units.findAll({
+      where: { user_id: lid },
+    });
+
+    // Extracting unit IDs from assignedUnits
+    const unitIdList = assignedUnits.map((unit) => unit.unit_id);
+
+    const unitsList = await units.findAll({
+      where: { id: { [Op.in]: unitIdList } },
+    });
+
+    // Send unitsList as a response
+    res.json({ success: { data: unitsList } });
   } catch (error) {
     console.error(error.message);
     res.json({ error: { message: "Internal Server Error!" } });

@@ -10,11 +10,12 @@ export type UserType = {
 
 export type ClaimType = {
   id: string;
+  claimant_id: number;
   hours: number;
   date: string;
-  status: string;
-  user_id: string;
-  job_id: string;
+  department_status: string;
+  registrar_status: string;
+  finance_status: string;
   file_url: string;
   department: string;
   unit_id: number;
@@ -23,7 +24,6 @@ export type ClaimType = {
 export type ClaimantType = {
   name: string;
   email: string;
-  job_id: string;
 };
 
 export type DepartmentType = {
@@ -41,7 +41,6 @@ export type JobType = {
 
 export type UnitType = {
   id: string;
-  name: string;
   CF: string;
   department: string;
   unit_code: string;

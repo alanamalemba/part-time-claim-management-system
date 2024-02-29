@@ -19,4 +19,17 @@ router.get("/lecturers", async (req, res) => {
   }
 });
 
+// get user with this id
+router.get("/:uid", async (req, res) => {
+  try {
+    const uid = req.params.uid;
+    const user = await users.findByPk(uid);
+
+    res.json({ success: { data: user } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error!" } });
+  }
+});
+
 module.exports = router;

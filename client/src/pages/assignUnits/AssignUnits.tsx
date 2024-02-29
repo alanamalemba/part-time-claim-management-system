@@ -29,6 +29,7 @@ export default function AssignUnits() {
         }
 
         setUnits(result.success.data);
+
         setLecturers(result2.success.data);
       } catch (error) {
         if (error instanceof Error) {
@@ -91,7 +92,7 @@ export default function AssignUnits() {
             <option disabled defaultValue="" value="">
               select a unit
             </option>
-            {units.map((unit) => (
+            {units?.map((unit) => (
               <option key={unit.id} value={unit.id}>
                 {unit.unit_code}: {unit.unit_title}
               </option>
