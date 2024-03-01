@@ -9,9 +9,5 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0,
     },
-    account_number: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
   });
 };

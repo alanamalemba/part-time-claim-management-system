@@ -41,8 +41,14 @@ export type JobType = {
 
 export type UnitType = {
   id: string;
-  CF: string;
+  cf: number;
   department: string;
   unit_code: string;
   unit_title: string;
+};
+
+export type AccountType = {
+  id: number;
+  user_id: number;
+  balance: number;
 };

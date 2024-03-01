@@ -1,9 +1,45 @@
 const express = require("express");
 const upload = require("../middleware/upload");
+const { claims, accounts } = require("../models");
 
 const router = express.Router();
 
-const { claims } = require("../models");
+// get all claims where department and registrar status is accepted
+// and finance status is pending
+router.get("/finance", async (req, res) => {
+  try {
+    const claimsList = await claims.findAll({
+      where: {
+        department_status: "accepted",
+        registrar_status: "accepted",
+        finance_status: "pending",
+      },
+    });
+
+    res.json({ success: { data: claimsList } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
+// get all claims where department status is accepted
+// and registrar status is pending
+router.get("/registrar", async (req, res) => {
+  try {
+    const claimsList = await claims.findAll({
+      where: {
+        department_status: "accepted",
+        registrar_status: "pending",
+      },
+    });
+
+    res.json({ success: { data: claimsList } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
 
 // get all claims in this chairperson's department which are pending
 router.get("/department/:dn", async (req, res) => {
@@ -25,14 +61,56 @@ router.get("/department/:dn", async (req, res) => {
 router.patch("/update-status", async (req, res) => {
   try {
     const request = req.body;
+
     if (request.stage === "department") {
       await claims.update(
         { department_status: request.status },
         { where: { id: request.cid } }
       );
+
       res.json({ success: { message: "Claim status updated successfully!" } });
-    } else {
+      return;
     }
+
+    if (request.stage === "registrar") {
+      await claims.update(
+        { registrar_status: request.status },
+        { where: { id: request.cid } }
+      );
+
+      res.json({
+        success: { message: "Claim status updated successfully!" },
+      });
+      return;
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
+//update finance claim status and update compensations
+router.patch("/update-status/finance", async (req, res) => {
+  try {
+    const request = req.body;
+    const claimId = request.cid;
+    const claimStatus = request.status;
+
+    let responseMessage;
+    if (claimStatus === "rejected") {
+      responseMessage = "Claim status updated successfully!";
+    } else {
+      const account = await accounts.findByPk(request.user_id);
+      await account.increment("balance", { by: request.compensation });
+      responseMessage = "Compensation allocated successfully!";
+    }
+
+    await claims.update(
+      { finance_status: claimStatus },
+      { where: { id: claimId } }
+    );
+
+    res.json({ success: { message: responseMessage } });
   } catch (error) {
     console.log(error.message);
     res.json({ error: { message: "Internal Server Error" } });

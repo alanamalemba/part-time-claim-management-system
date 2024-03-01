@@ -27,8 +27,8 @@ export default function NavBar({ setIsLoggedIn }: Props) {
       </div>
 
       {/* Admin view */}
-      {
-        /*user?.role === "Admin" && */ <>
+      {user?.role === "Admin" && (
+        <>
           <div className="border-y  p-2">
             <Link to={`/create-account`}>Create User Account</Link>
           </div>
@@ -37,9 +37,9 @@ export default function NavBar({ setIsLoggedIn }: Props) {
             <Link to={`/create-unit`}>Create Unit</Link>
           </div>
         </>
-      }
-      {
-        /*user?.role === "Chairperson" && */ <>
+      )}
+      {user?.role === "Chairperson" && (
+        <>
           <div className="border-y  p-2">
             <Link to={`/assign-units`}>Assign Units</Link>
           </div>
@@ -48,18 +48,39 @@ export default function NavBar({ setIsLoggedIn }: Props) {
             <Link to={`/department-claims`}>Department Claims</Link>
           </div>
         </>
-      }
-      {
-        /*(user?.role === "Lecturer" || user?.role === "Technician") && */ <>
+      )}
+
+      {user?.role === "Registrar" && (
+        <>
+          <div className="border-y  p-2">
+            <Link to={`/registrar-claims`}>Registrar Claims</Link>
+          </div>
+        </>
+      )}
+
+      {user?.role === "Finance" && (
+        <>
+          <div className="border-y  p-2">
+            <Link to={`/finance-compensation`}>Finance Compensation</Link>
+          </div>
+        </>
+      )}
+
+      {(user?.role === "Lecturer" || user?.role === "Technician") && (
+        <>
           <div className="border-y  p-2">
             <Link to={`/submit-claim`}>Submit Claim</Link>
           </div>
 
-          <div className="border-y  p-2">
+          {/* <div className="border-y  p-2">
             <Link to={`/my-claims`}>My Claims</Link>
+          </div> */}
+
+          <div className="border-y  p-2">
+            <Link to={`/manage-account`}>Manage Account</Link>
           </div>
         </>
-      }
+      )}
       <button
         className="border-y w-full bg-blue-950 p-2 mt-auto sticky bottom-0 "
         onClick={handleLogout}

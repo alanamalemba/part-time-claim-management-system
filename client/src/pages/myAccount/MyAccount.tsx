@@ -6,9 +6,10 @@ export default function MyAccount() {
 
   return (
     <div className="flex flex-col gap-2 items-center w-full p-6">
-      <h1 className="text-blue-800 font-semibold text-lg">My Account</h1>
-
-      <div className="flex flex-col gap-2 w-full max-w-[500px] border shadow p-2 rounded">
+      <div className="flex flex-col gap-4 w-full max-w-[1000px] border shadow p-2 text-2xl rounded">
+        <h1 className="text-blue-800 text-center font-semibold text-2xl">
+          My Account
+        </h1>
         <div>
           Name: <span className="font-semibold">{user?.name}</span>
         </div>

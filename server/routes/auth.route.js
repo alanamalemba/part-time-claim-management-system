@@ -1,5 +1,5 @@
 const express = require("express");
-const { users } = require("../models");
+const { users, accounts } = require("../models");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
@@ -27,6 +27,7 @@ router.post("/create-account", async (req, res) => {
     console.log(user.password);
 
     const result = await users.create(user);
+    await accounts.create({ user_id: result.id });
 
     res.json({
       success: { message: `Account for ${result.name} Created successfully!` },

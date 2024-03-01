@@ -12,6 +12,9 @@ import MyAccount from "./pages/myAccount/MyAccount";
 import CreateUnit from "./pages/createUnit/CreateUnit";
 import AssignUnits from "./pages/assignUnits/AssignUnits";
 import DepartmentClaims from "./pages/departmentClaims/DepartmentClaims";
+import RegistrarClaims from "./pages/registrarClaims/RegistrarClaims";
+import FinanceCompensation from "./pages/financeCompensation/FinanceCompensation";
+import ManageAccount from "./pages/manageAccount/ManageAccount";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -55,6 +58,12 @@ export default function App() {
                 <Route path="/create-unit" element={<CreateUnit />} />
                 <Route path="/submit-claim" element={<SubmitClaim />} />
                 <Route path="/assign-units" element={<AssignUnits />} />
+                <Route path="/registrar-claims" element={<RegistrarClaims />} />
+                <Route path="/manage-account" element={<ManageAccount />} />
+                <Route
+                  path="/finance-compensation"
+                  element={<FinanceCompensation />}
+                />
                 <Route
                   path="/department-claims"
                   element={<DepartmentClaims />}

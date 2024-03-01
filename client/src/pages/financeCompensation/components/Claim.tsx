@@ -35,20 +35,30 @@ export default function Claim({ claim }: Props) {
 
   const dateClaimed = new Date(claim.date).toDateString();
 
+  const totalCompensation =
+    claimant?.role === "Lecturer"
+      ? (unit?.cf ?? 0) * claim.hours * 1000
+      : claim.hours * 500;
+
+  if (isReviewed) return;
+
   async function handleStatusUpdate(status: string) {
     try {
-      const response = await fetch(`${serverUrl}/claims/update-status`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          stage: "department",
-          status: status,
-          cid: claim.id,
-        }),
-      });
-
+      const response = await fetch(
+        `${serverUrl}/claims/update-status/finance`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: status,
+            cid: claim.id,
+            user_id: claimant?.id,
+            compensation: totalCompensation,
+          }),
+        }
+      );
       const result = await response.json();
       console.log(result);
       toast.success(result.success.message);
@@ -60,24 +70,22 @@ export default function Claim({ claim }: Props) {
     }
   }
 
-  if (isReviewed) return;
-
   return (
     <div className="bg-blue-100 p-2 rounded">
       <div className=" p-1 flex  gap-2 flex-col  font-medium">
         <p className="flex justify-between border-b border-black">
-          <span>Claimant:</span>
+          <span>Claimant Name:</span>
           <span>{claimant?.name}</span>
+        </p>
+
+        <p className="flex justify-between border-b border-black">
+          <span>Claimant Role:</span>
+          <span>{claimant?.role}</span>
         </p>
 
         <p className="flex justify-between border-b border-black">
           <span>Claim ID:</span>
           <span>{claim.id}</span>
-        </p>
-
-        <p className="flex justify-between border-b border-black">
-          <span>Hours claimed:</span>
-          <span>{claim.hours} hrs</span>
         </p>
 
         <p className="flex justify-between border-b border-black">
@@ -93,6 +101,21 @@ export default function Claim({ claim }: Props) {
         <p className="flex justify-between border-b border-black">
           <span>Unit Claimed:</span>
           <span>{unit?.unit_title}</span>
+        </p>
+
+        <p className="flex justify-between border-b border-black">
+          <span>Unit CF:</span>
+          <span>{unit?.cf}</span>
+        </p>
+
+        <p className="flex justify-between border-b border-black">
+          <span>Hours Claimed:</span>
+          <span>{claim.hours} hrs</span>
+        </p>
+
+        <p className="flex text-lg font-semibold justify-between border-b border-black">
+          <span>Total Compensation Claimed:</span>
+          <span>KES {totalCompensation}</span>
         </p>
 
         <a
@@ -112,9 +135,9 @@ export default function Claim({ claim }: Props) {
         </button>
         <button
           className="p-2 border rounded grow font-medium bg-green-500"
-          onClick={() => handleStatusUpdate("accepted")}
+          onClick={() => handleStatusUpdate("compensated")}
         >
-          Accept
+          Compensate
         </button>
       </div>
     </div>

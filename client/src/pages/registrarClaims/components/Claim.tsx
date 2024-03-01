@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { ClaimType, UnitType, UserType } from "../../../utilities/Types";
-import { serverUrl } from "../../../utilities/Constants";
 import toast from "react-hot-toast";
+import { serverUrl } from "../../../utilities/Constants";
+import { ClaimType, UnitType, UserType } from "../../../utilities/Types";
 
 type Props = {
   claim: ClaimType;
@@ -43,7 +43,7 @@ export default function Claim({ claim }: Props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          stage: "department",
+          stage: "registrar",
           status: status,
           cid: claim.id,
         }),
