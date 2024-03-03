@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../utilities/Constants";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/claim_logo.png";
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,13 +46,20 @@ export default function Login({ setIsLoggedIn }: Props) {
     }
   }
 
+  console.log(logo);
+
   return (
-    <div className="flex flex-col justify-center items-center h-screen  w-full">
-      <h1 className="text-2xl font-bold text-blue-900 mb-6">Claim Portal</h1>
+    <div
+      className="flex bg-cover bg-opacity-90 bg-center flex-col justify-center items-center h-screen  w-full"
+      style={{ backgroundImage: `url(${logo})` }}
+    >
       <form
-        className=" border shadow p-2 rounded  flex flex-col gap-2 min-w-[400px]"
+        className=" z-20 border shadow p-6 rounded  flex flex-col gap-4 w-full max-w-[800px] bg-white"
         onSubmit={(e) => handleSubmit(e)}
       >
+        <h1 className=" text-center text-3xl font-bold text-blue-900 mb-6">
+          Claim Portal
+        </h1>
         <h1 className="text-xl text-blue-900 font-semibold text-center">
           Log In
         </h1>
@@ -59,7 +67,7 @@ export default function Login({ setIsLoggedIn }: Props) {
         <label className="">
           <p>Enter email</p>
           <input
-            className="border shadow p-1 rounded w-full"
+            className="border shadow p-2 rounded w-full"
             placeholder="email"
             type="email"
             required
@@ -71,7 +79,7 @@ export default function Login({ setIsLoggedIn }: Props) {
         <label className="">
           <p>Enter password</p>
           <input
-            className="border shadow p-1 rounded w-full"
+            className="border shadow p-2 rounded w-full"
             placeholder="password"
             type="password"
             required
@@ -80,10 +88,11 @@ export default function Login({ setIsLoggedIn }: Props) {
           />
         </label>
 
-        <button className="bg-blue-500 p-1 shadow-md rounded font-semibold">
+        <button className="bg-blue-500 p-2 text-white shadow-md rounded font-semibold">
           Submit
         </button>
       </form>
+      <div className="absolute inset-0 bg-blue-500 opacity-50"></div>
     </div>
   );
 }
