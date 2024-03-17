@@ -1,5 +1,5 @@
 export type UserType = {
-  id: string;
+  id: number;
   name: string;
   email: string;
   role: string;
@@ -10,7 +10,7 @@ export type UserType = {
 };
 
 export type ClaimType = {
-  id: string;
+  id: number;
   claimant_id: number;
   hours: number;
   date: string;
@@ -27,20 +27,20 @@ export type ClaimantType = {
 };
 
 export type DepartmentType = {
-  id: string;
+  id: number;
   name: string;
   manager_id: string;
 };
 
 export type JobType = {
-  id: string;
+  id: number;
   name: string;
   pay_rate: string;
   department_id: string;
 };
 
 export type UnitType = {
-  id: string;
+  id: number;
   cf: number;
   department: string;
   unit_code: string;

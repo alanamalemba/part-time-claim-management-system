@@ -11,6 +11,7 @@ export default function Claim({ claim }: Props) {
   const [claimant, setClaimant] = useState<UserType>();
   const [unit, setUnit] = useState<UnitType>();
   const [isReviewed, setIsReviewed] = useState(false);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     async function getData() {
@@ -35,7 +36,16 @@ export default function Claim({ claim }: Props) {
 
   const dateClaimed = new Date(claim.date).toDateString();
 
-  async function handleStatusUpdate(status: string) {
+  async function handleStatusUpdate(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    status: string
+  ) {
+    e.preventDefault();
+
+    if (!comment) {
+      toast.error("Please add comment before submitting!");
+    }
+
     try {
       const response = await fetch(`${serverUrl}/claims/update-status`, {
         method: "PATCH",
@@ -46,6 +56,7 @@ export default function Claim({ claim }: Props) {
           stage: "registrar",
           status: status,
           cid: claim.id,
+          comment: comment,
         }),
       });
 
@@ -103,20 +114,33 @@ export default function Claim({ claim }: Props) {
         </a>
       </div>
 
-      <div className="bg-white p-2 rounded flex gap-2">
-        <button
-          className="p-2 border rounded grow font-medium bg-red-500"
-          onClick={() => handleStatusUpdate("rejected")}
-        >
-          Reject
-        </button>
-        <button
-          className="p-2 border rounded grow font-medium bg-green-500"
-          onClick={() => handleStatusUpdate("accepted")}
-        >
-          Accept
-        </button>
-      </div>
+      <form className="  mt-1 flex flex-col gap-2">
+        <textarea
+          className="p-2 rounded"
+          placeholder="Enter comment..."
+          name=""
+          id=""
+          cols={30}
+          rows={2}
+          required
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        ></textarea>
+        <div className="flex  gap-2">
+          <button
+            className="p-2 border rounded grow font-medium bg-red-500"
+            onClick={(e) => handleStatusUpdate(e, "rejected")}
+          >
+            Reject
+          </button>
+          <button
+            className="p-2 border rounded grow font-medium bg-green-500"
+            onClick={(e) => handleStatusUpdate(e, "accepted")}
+          >
+            Approve
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

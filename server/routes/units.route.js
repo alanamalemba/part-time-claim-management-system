@@ -72,19 +72,27 @@ router.get("/lecturer/:lid", async (req, res) => {
 //assign unit
 router.post("/assign", async (req, res) => {
   try {
-    const unitInfo = req.body;
-    await assigned_units.create(unitInfo);
-    await units.update(
-      { assigned: true },
-      {
-        where: {
-          id: unitInfo.unit_id,
-        },
-      }
-    );
+    const { user_id, unitsList } = req.body;
+
+    for (let i = 0; i < unitsList.length; i++) {
+      console.log(unitsList);
+      await assigned_units.create({
+        unit_id: unitsList[i].id,
+        user_id: user_id,
+      });
+
+      await units.update(
+        { assigned: true },
+        {
+          where: {
+            id: unitsList[i].id,
+          },
+        }
+      );
+    }
 
     res.json({
-      success: { message: "Unit Assigned successfully!" },
+      success: { message: "Unit(s) Assigned successfully!" },
     });
   } catch (error) {
     console.error(error.message);

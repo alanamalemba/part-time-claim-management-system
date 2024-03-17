@@ -79,7 +79,7 @@ router.patch("/update-status", async (req, res) => {
 
     if (request.stage === "department") {
       await claims.update(
-        { department_status: request.status },
+        { department_status: request.status, comment: request.comment },
         { where: { id: request.cid } }
       );
 
@@ -89,7 +89,7 @@ router.patch("/update-status", async (req, res) => {
 
     if (request.stage === "registrar") {
       await claims.update(
-        { registrar_status: request.status },
+        { registrar_status: request.status, comment: request.comment },
         { where: { id: request.cid } }
       );
 

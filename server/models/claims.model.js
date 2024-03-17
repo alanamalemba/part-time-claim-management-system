@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     unit_id: {
       type: DataTypes.STRING,
     },
+    comment: {
+      type: DataTypes.STRING,
+    },
   });
 
   return Claims;

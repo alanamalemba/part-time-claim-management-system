@@ -30,10 +30,12 @@ export default function DepartmentClaims() {
 
   return (
     <div className="p-4 border-2 flex flex-col gap-4 rounded my-2  mx-auto w-full max-w-[1000px]">
-      <h2 className="font-medium text-xl mx-auto">Department Claims</h2>
-      {claims.map((claim) => (
-        <Claim key={claim.id} claim={claim} />
-      ))}
+      <h2 className=" font-medium text-xl mx-auto">Department Claims</h2>
+      <div className="flex flex-col gap-4 lg:grid grid-cols-2  p-2">
+        {claims.map((claim) => (
+          <Claim key={claim.id} claim={claim} />
+        ))}
+      </div>
     </div>
   );
 }

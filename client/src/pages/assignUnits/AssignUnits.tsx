@@ -7,7 +7,8 @@ export default function AssignUnits() {
   const [units, setUnits] = useState<UnitType[]>([]);
   const [lecturers, setLecturers] = useState<UserType[]>([]);
 
-  const [selectedUnit, setSelectedUnit] = useState("");
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  const [unitsList, setUnitList] = useState<UnitType[]>([]);
   const [selectedLecturer, setSelectedLecturer] = useState("");
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function AssignUnits() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          unit_id: selectedUnit,
+          unitsList: unitsList,
           user_id: selectedLecturer,
         }),
       });
@@ -71,34 +72,66 @@ export default function AssignUnits() {
     }
   }
 
+  function handleAdd() {
+    if (!selectedUnit) return;
+
+    if (unitsList.some((unit) => unit.id === selectedUnit.id)) return;
+
+    setUnitList([...unitsList, selectedUnit]);
+  }
+
+  function handleSelectedUnit(e: React.ChangeEvent<HTMLSelectElement>) {
+    const currentUnit = units.find(
+      (unit) => unit.id === parseInt(e.target.value)
+    );
+    setSelectedUnit(currentUnit);
+  }
+
   return (
     <div className="p-4 w-full flex justify-center items-start">
       <form
         className="border shadow rounded p-2 w-full max-w-[800px] flex flex-col gap-4"
         onSubmit={(e) => handleAssignUnit(e)}
       >
-        <h1 className="text-center font-semibold text-lg text-blue-800">
-          Assign Unit
+        <h1 className="text-center text-2xl font-semibold  text-blue-800">
+          Assign Units
         </h1>
 
-        <label>
-          <p>Select unit Name</p>
-          <select
-            className="border shadow rounded p-2 w-full"
-            required
-            value={selectedUnit}
-            onChange={(e) => setSelectedUnit(e.target.value)}
-          >
-            <option disabled defaultValue="" value="">
-              select a unit
-            </option>
-            {units?.map((unit) => (
-              <option key={unit.id} value={unit.id}>
-                {unit.unit_code}: {unit.unit_title}
+        <div className="flex w-full items-end gap-2">
+          <label className="grow">
+            <p>Select unit Name</p>
+            <select
+              className="border shadow rounded p-2 w-full"
+              onChange={(e) => handleSelectedUnit(e)}
+            >
+              <option disabled defaultValue="" value="">
+                select a unit
               </option>
+              {units?.map((unit) => (
+                <option key={unit.id} value={unit.id}>
+                  {unit.unit_code}: {unit.unit_title}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <button
+            onClick={handleAdd}
+            type="button"
+            className=" border rounded shadow w-[40px] h-[40px]"
+          >
+            +
+          </button>
+        </div>
+
+        <div className="border rounded shadow p-2">
+          <p className="text-lg font-medium">Units selected</p>
+          <ul>
+            {unitsList.map((unit, index) => (
+              <li key={index}>{unit.unit_code}</li>
             ))}
-          </select>
-        </label>
+          </ul>
+        </div>
 
         <label className="">
           <p>Select Lecturer</p>
