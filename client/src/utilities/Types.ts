@@ -6,6 +6,7 @@ export type UserType = {
   account_number: string;
   national_id: string;
   department: string;
+  updatedPassword: boolean;
 };
 
 export type ClaimType = {
@@ -15,7 +16,6 @@ export type ClaimType = {
   date: string;
   department_status: string;
   registrar_status: string;
-  finance_status: string;
   file_url: string;
   department: string;
   unit_id: number;

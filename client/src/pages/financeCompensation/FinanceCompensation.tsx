@@ -11,10 +11,11 @@ export default function FinanceCompensation() {
   useEffect(() => {
     async function fetchClaims() {
       try {
-        // get all claims in this chairperson's department which are pending
         const response = await fetch(`${serverUrl}/claims/finance`);
 
         const result = await response.json();
+        console.log();
+
         setClaims(result.success.data);
       } catch (error) {
         if (error instanceof Error) {
@@ -27,11 +28,31 @@ export default function FinanceCompensation() {
   }, [user?.department]);
 
   return (
-    <div className="p-4 border-2 flex flex-col gap-4 rounded my-2  mx-auto w-full max-w-[1000px]">
+    <div className="p-4 border-2 flex flex-col gap-4 rounded my-2  mx-auto w-full max-w-[1200px]">
       <h2 className="font-medium text-xl mx-auto">Finance Compensation</h2>
-      {claims.map((claim) => (
-        <Claim key={claim.id} claim={claim} />
-      ))}
+
+      {/* ------------------------- */}
+
+      <table className="text-center bg-slate-300  rounded">
+        <thead className="">
+          <tr>
+            <th className="p-2">Claimant Name</th>
+            <th className="p-2">Claimant Role</th>
+            <th className="p-2">Claim ID</th>
+            <th className="p-2">Date claimed</th>
+            <th className="p-2">Department</th>
+            <th className="p-2">Unit Claimed</th>
+            <th className="p-2">Unit CF</th>
+            <th className="p-2">Hours Claimed</th>
+            <th className="p-2">Total Compensation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {claims.map((claim) => (
+            <Claim key={claim.id} claim={claim} />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

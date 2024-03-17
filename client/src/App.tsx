@@ -15,6 +15,8 @@ import DepartmentClaims from "./pages/departmentClaims/DepartmentClaims";
 import RegistrarClaims from "./pages/registrarClaims/RegistrarClaims";
 import FinanceCompensation from "./pages/financeCompensation/FinanceCompensation";
 import ManageAccount from "./pages/manageAccount/ManageAccount";
+import MyClaims from "./pages/myClaims/MyClaims";
+import ChangePassword from "./changePassword/ChangePassword";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -48,30 +50,41 @@ export default function App() {
         {isLoading ? (
           <LoadingScreen />
         ) : isLoggedIn ? (
-          <>
-            <Header />
-            <section className="flex ">
-              <NavBar setIsLoggedIn={setIsLoggedIn} />
-              <Routes>
-                <Route path="/" element={<MyAccount />} />
-                <Route path="/create-account" element={<CreateAccount />} />
-                <Route path="/create-unit" element={<CreateUnit />} />
-                <Route path="/submit-claim" element={<SubmitClaim />} />
-                <Route path="/assign-units" element={<AssignUnits />} />
-                <Route path="/registrar-claims" element={<RegistrarClaims />} />
-                <Route path="/manage-account" element={<ManageAccount />} />
-                <Route
-                  path="/finance-compensation"
-                  element={<FinanceCompensation />}
-                />
-                <Route
-                  path="/department-claims"
-                  element={<DepartmentClaims />}
-                />
-                <Route path="*" element={<Navigate to={`/`} />} />
-              </Routes>
-            </section>
-          </>
+          !user?.updatedPassword ? (
+            <ChangePassword />
+          ) : (
+            <>
+              <Header />
+              <section className="flex ">
+                <NavBar setIsLoggedIn={setIsLoggedIn} />
+                <Routes>
+                  <Route path="/" element={<MyAccount />} />
+                  <Route
+                    path="/create-account/:role"
+                    element={<CreateAccount />}
+                  />
+                  <Route path="/my-claims" element={<MyClaims />} />
+                  <Route path="/create-unit" element={<CreateUnit />} />
+                  <Route path="/submit-claim" element={<SubmitClaim />} />
+                  <Route path="/assign-units" element={<AssignUnits />} />
+                  <Route
+                    path="/registrar-claims"
+                    element={<RegistrarClaims />}
+                  />
+                  <Route path="/manage-account" element={<ManageAccount />} />
+                  <Route
+                    path="/finance-compensation"
+                    element={<FinanceCompensation />}
+                  />
+                  <Route
+                    path="/department-claims"
+                    element={<DepartmentClaims />}
+                  />
+                  <Route path="*" element={<Navigate to={`/`} />} />
+                </Routes>
+              </section>
+            </>
+          )
         ) : (
           <Login setIsLoggedIn={setIsLoggedIn} />
         )}

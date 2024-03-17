@@ -22,14 +22,16 @@ export default function MyAccount() {
           Role: <span className="font-semibold">{user?.role}</span>
         </div>
 
-        {user?.role !== "Admin" && (
-          <>
-            <div>
-              Department:{" "}
-              <span className="font-semibold">{user?.department}</span>
-            </div>
-          </>
-        )}
+        {user?.role !== "Admin" &&
+          user?.role !== "Registrar" &&
+          user?.role !== "Finance" && (
+            <>
+              <div>
+                Department:{" "}
+                <span className="font-semibold">{user?.department}</span>
+              </div>
+            </>
+          )}
       </div>
     </div>
   );

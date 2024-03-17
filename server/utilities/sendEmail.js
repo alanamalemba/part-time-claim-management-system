@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-
 const { transportAuth } = require("./Constants");
 
 const transporter = nodemailer.createTransport({
@@ -10,27 +9,28 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-function sendEmail(recipientName, recipientEmail, subject, message) {
+async function sendEmail(recipientName, recipientEmail, subject, message) {
   const mailOptions = {
     from: `"Claim Portal" <${transportAuth.user}>`,
     to: recipientEmail,
     subject: subject,
     text: "your email body content here",
     html: `
-   <h1>Hello ${recipientName},</h1>
-   <div>${message}</div>
-   <br/>
-   <p>Claim Portal System.</p>
-  `,
+      <h1>Hello ${recipientName},</h1>
+      <div>${message}</div>
+      <br/>
+      <p>Claim Portal System.</p>
+    `,
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info.response);
+    return info;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
 
 module.exports = sendEmail;

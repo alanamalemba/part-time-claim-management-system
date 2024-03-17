@@ -5,14 +5,12 @@ const { claims, accounts } = require("../models");
 const router = express.Router();
 
 // get all claims where department and registrar status is accepted
-// and finance status is pending
 router.get("/finance", async (req, res) => {
   try {
     const claimsList = await claims.findAll({
       where: {
         department_status: "accepted",
         registrar_status: "accepted",
-        finance_status: "pending",
       },
     });
 
@@ -31,6 +29,23 @@ router.get("/registrar", async (req, res) => {
       where: {
         department_status: "accepted",
         registrar_status: "pending",
+      },
+    });
+
+    res.json({ success: { data: claimsList } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
+router.get("/claimant/:uid", async (req, res) => {
+  try {
+    const uid = req.params.uid;
+
+    const claimsList = await claims.findAll({
+      where: {
+        claimant_id: uid,
       },
     });
 

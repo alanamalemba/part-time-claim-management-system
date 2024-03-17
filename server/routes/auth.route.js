@@ -1,8 +1,30 @@
 const express = require("express");
 const { users, accounts } = require("../models");
 const bcrypt = require("bcrypt");
+const sendEmail = require("../utilities/sendEmail");
+const { websiteUrl } = require("../utilities/Constants");
 
 const router = express.Router();
+
+//change password
+
+router.patch("/change-password", async (req, res) => {
+  try {
+    const data = req.body;
+
+    const hash = await bcrypt.hash(data.newPassword, 10);
+
+    await users.update(
+      { password: hash, updatedPassword: true },
+      { where: { id: data.uid } }
+    );
+
+    res.json({ success: { message: "Password changed successfully!" } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal server error!" } });
+  }
+});
 
 // Create a user Account if it does not exist
 router.post("/create-account", async (req, res) => {
@@ -22,12 +44,21 @@ router.post("/create-account", async (req, res) => {
 
     const hash = await bcrypt.hash(user.password, 10);
 
-    user.password = hash;
+    const plainTextPassWord = user.password;
 
-    console.log(user.password);
+    user.password = hash;
 
     const result = await users.create(user);
     await accounts.create({ user_id: result.id });
+
+    await sendEmail(
+      user.name,
+      user.email,
+      "Creation of your Claim Portal Account",
+      `Your claim portal Account has successfully been created,
+       log in to ${websiteUrl} using password "${plainTextPassWord}",
+        and please change your password once logged in.`
+    );
 
     res.json({
       success: { message: `Account for ${result.name} Created successfully!` },

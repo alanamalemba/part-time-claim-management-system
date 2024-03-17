@@ -22,12 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: "pending",
     },
-    finance_status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "pending",
-    },
-
     file_url: {
       type: DataTypes.STRING,
       allowNull: false,
