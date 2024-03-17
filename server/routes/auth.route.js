@@ -8,6 +8,37 @@ const router = express.Router();
 
 //change password
 
+router.patch("/forgot-password", async (req, res) => {
+  try {
+    const { email, randomString } = req.body;
+
+    console.log(req.body);
+
+    const user = await users.findOne({ where: { email: email } });
+
+    if (!user) {
+      return res.json({ error: { message: "User does not exist!" } });
+    }
+
+    const hash = await bcrypt.hash(randomString, 10);
+    user.update({ password: hash, updatedPassword: false });
+
+    await sendEmail(
+      user.name,
+      email,
+      "Reset of Password",
+      `Use this one time password to log in to your account
+       and immediately change to your preferred new password
+        "${randomString}" `
+    );
+
+    res.json({ success: { message: "One time password sent successfully!" } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal server error!" } });
+  }
+});
+
 router.patch("/change-password", async (req, res) => {
   try {
     const data = req.body;

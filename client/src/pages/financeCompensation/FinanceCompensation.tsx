@@ -3,6 +3,7 @@ import { ClaimType } from "../../utilities/Types";
 import { serverUrl } from "../../utilities/Constants";
 import { UserContext } from "../../App";
 import Claim from "./components/Claim";
+import html2pdf from "html2pdf.js";
 
 export default function FinanceCompensation() {
   const [claims, setClaims] = useState<ClaimType[]>([]);
@@ -27,13 +28,26 @@ export default function FinanceCompensation() {
     fetchClaims();
   }, [user?.department]);
 
+  function handleExport() {
+    const element = document.getElementById("pdf-content");
+
+    html2pdf().from(element).save();
+  }
+
   return (
     <div className="p-4 border-2 flex flex-col gap-4 rounded my-2  mx-auto w-full max-w-[1200px]">
       <h2 className="font-medium text-xl mx-auto">Finance Compensation</h2>
 
       {/* ------------------------- */}
+      <button onClick={handleExport} className="w-20 border rounded p-1">
+        Export
+      </button>
 
-      <table className="text-center bg-slate-300  rounded">
+      <table
+        id="pdf-content"
+        className="text-center bg-slate-300 m-2  rounded "
+      >
+        <caption>Finance compensations</caption>
         <thead className="">
           <tr>
             <th className="p-2">Claimant Name</th>

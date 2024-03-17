@@ -3,6 +3,7 @@ import { UserContext } from "../App";
 import toast from "react-hot-toast";
 import { serverUrl } from "../utilities/Constants";
 import claimLogo from "../assets/images/claim_logo.png";
+import { UserType } from "../utilities/Types";
 
 export default function ChangePassword() {
   const { user, setUser } = useContext(UserContext);
@@ -27,7 +28,15 @@ export default function ChangePassword() {
       .then((res) => res.json())
       .then((result) => {
         toast.success(result.success.message);
-        if (user) setUser({ ...user, updatedPassword: true });
+        if (user) {
+          const userString = localStorage.getItem("user");
+          const user: UserType = JSON.parse(userString as string);
+          user.updatedPassword = true;
+          const updatedUserString = JSON.stringify(user);
+          localStorage.setItem("user", updatedUserString);
+
+          setUser({ ...user, updatedPassword: true });
+        }
       })
       .catch((err) => console.error(err.message));
   }

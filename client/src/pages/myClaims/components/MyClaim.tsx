@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ClaimType, UnitType } from "../../../utilities/Types";
 import { serverUrl } from "../../../utilities/Constants";
+import { UserContext } from "../../../App";
 
 type Props = {
   claim: ClaimType;
@@ -8,8 +9,10 @@ type Props = {
 
 export default function MyClaim({ claim }: Props) {
   const [unit, setUnit] = useState<UnitType | null>(null);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
+    if (user?.role !== "Lecturer") return;
     fetch(`${serverUrl}/units/${claim.unit_id}`)
       .then((res) => res.json())
       .then((result) => setUnit(result.success.data))

@@ -1,8 +1,18 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
+import { UnitType } from "../../utilities/Types";
+import { serverUrl } from "../../utilities/Constants";
 
 export default function MyAccount() {
   const { user } = useContext(UserContext);
+
+  const [units, setUnits] = useState<UnitType[]>([]);
+
+  useEffect(() => {
+    fetch(`${serverUrl}/assigned_units/${user?.id}`)
+      .then((res) => res.json())
+      .then((result) => setUnits(result.success.data));
+  }, [user?.id]);
 
   return (
     <div className="flex flex-col gap-2 items-center w-full p-6">
@@ -30,6 +40,18 @@ export default function MyAccount() {
                 Department:{" "}
                 <span className="font-semibold">{user?.department}</span>
               </div>
+              {user?.role !== "Technician" && (
+                <div>
+                  <p className="font-medium">Units Assigned:</p>
+                  <ul>
+                    {units.map((unit) => (
+                      <li key={unit.id} className="text-lg">
+                        {unit.unit_code}: {unit.unit_title}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </>
           )}
       </div>

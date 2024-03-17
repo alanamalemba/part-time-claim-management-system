@@ -8,6 +8,7 @@ const unitsRoute = require("./routes/units.route");
 const usersRoute = require("./routes/users.route");
 const claimsRoute = require("./routes/claims.route");
 const accountsRoute = require("./routes/accounts.route");
+const assigned_unitsRoute = require("./routes/assigned_units.route");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/units", unitsRoute);
 app.use("/users", usersRoute);
 app.use("/claims", claimsRoute);
 app.use("/accounts", accountsRoute);
+app.use("/assigned_units", assigned_unitsRoute);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //...

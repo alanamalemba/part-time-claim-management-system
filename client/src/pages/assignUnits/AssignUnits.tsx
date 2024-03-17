@@ -8,6 +8,7 @@ export default function AssignUnits() {
   const [lecturers, setLecturers] = useState<UserType[]>([]);
 
   const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  const [currentUnit, setCurrentUnit] = useState("");
   const [unitsList, setUnitList] = useState<UnitType[]>([]);
   const [selectedLecturer, setSelectedLecturer] = useState("");
 
@@ -102,7 +103,11 @@ export default function AssignUnits() {
             <p>Select unit Name</p>
             <select
               className="border shadow rounded p-2 w-full"
-              onChange={(e) => handleSelectedUnit(e)}
+              onChange={(e) => {
+                handleSelectedUnit(e);
+                setCurrentUnit(e.target.value);
+              }}
+              value={currentUnit}
             >
               <option disabled defaultValue="" value="">
                 select a unit

@@ -79,6 +79,10 @@ export default function NavBar({ setIsLoggedIn }: Props) {
         <div className="border-y  p-2">
           <Link to={`/department-claims`}>Department Claims</Link>
         </div>
+
+        <div className="border-y  p-2">
+          <Link to={`/department-report`}>Department Report</Link>
+        </div>
       </>
       {/* )} */}
 
@@ -86,6 +90,10 @@ export default function NavBar({ setIsLoggedIn }: Props) {
       <>
         <div className="border-y  p-2">
           <Link to={`/registrar-claims`}>Registrar Claims</Link>
+        </div>
+
+        <div className="border-y  p-2">
+          <Link to={`/registrar-report`}>Registrar Report</Link>
         </div>
       </>
       {/* )} */}

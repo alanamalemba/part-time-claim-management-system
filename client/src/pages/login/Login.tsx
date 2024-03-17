@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../utilities/Constants";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/claim_logo.png";
 
 type Props = {
@@ -46,8 +46,6 @@ export default function Login({ setIsLoggedIn }: Props) {
     }
   }
 
-  console.log(logo);
-
   return (
     <div
       className="flex bg-cover bg-opacity-90 bg-center flex-col justify-center items-center h-screen  w-full"
@@ -91,6 +89,10 @@ export default function Login({ setIsLoggedIn }: Props) {
         <button className="bg-blue-500 p-2 text-white shadow-md rounded font-semibold">
           Submit
         </button>
+
+        <Link className="text-blue-500" to={`/forgot-password`}>
+          Forgot password?
+        </Link>
       </form>
       <div className="absolute inset-0 bg-blue-500 opacity-50"></div>
     </div>

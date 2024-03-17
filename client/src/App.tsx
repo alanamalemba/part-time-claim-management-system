@@ -17,6 +17,9 @@ import FinanceCompensation from "./pages/financeCompensation/FinanceCompensation
 import ManageAccount from "./pages/manageAccount/ManageAccount";
 import MyClaims from "./pages/myClaims/MyClaims";
 import ChangePassword from "./changePassword/ChangePassword";
+import DepartmentReport from "./pages/departmentReport/DepartmentReport";
+import RegistrarReport from "./registrarReport/RegistrarReport";
+import ForgotPassword from "./pages/forgotPassword/ForgotPassword";
 
 type UserContextType = {
   user: UserType | undefined;
@@ -68,8 +71,16 @@ export default function App() {
                   <Route path="/submit-claim" element={<SubmitClaim />} />
                   <Route path="/assign-units" element={<AssignUnits />} />
                   <Route
+                    path="/department-report"
+                    element={<DepartmentReport />}
+                  />
+                  <Route
                     path="/registrar-claims"
                     element={<RegistrarClaims />}
+                  />
+                  <Route
+                    path="/registrar-report"
+                    element={<RegistrarReport />}
                   />
                   <Route path="/manage-account" element={<ManageAccount />} />
                   <Route
@@ -86,7 +97,11 @@ export default function App() {
             </>
           )
         ) : (
-          <Login setIsLoggedIn={setIsLoggedIn} />
+          <Routes>
+            <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="*" element={<Navigate to={`/`} />} />
+          </Routes>
         )}
       </main>
     </UserContext.Provider>

@@ -72,6 +72,36 @@ router.get("/department/:dn", async (req, res) => {
   }
 });
 
+// get all claims in this chairperson's department
+router.get("/department-all/:dn", async (req, res) => {
+  try {
+    const dn = req.params.dn;
+    console.log(dn);
+    const claimsList = await claims.findAll({
+      where: { department: dn },
+    });
+
+    res.json({ success: { data: claimsList } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
+// get all claims
+router.get("/", async (req, res) => {
+  try {
+    const dn = req.params.dn;
+    console.log(dn);
+    const claimsList = await claims.findAll();
+
+    res.json({ success: { data: claimsList } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
 //update claim status
 router.patch("/update-status", async (req, res) => {
   try {
